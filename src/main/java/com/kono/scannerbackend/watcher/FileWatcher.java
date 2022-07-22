@@ -27,7 +27,8 @@ public class FileWatcher extends FileAlterationListenerAdaptor {
         String fileName = file.getName();
         log.info("file create success, file : {}, fileName : {}", file, fileName);
         ConcurrentHashMap<String, String> fileWithPerson = uploadConfig.getFileWithPerson();
-        FileUtil.upload(uploadConfig.getIp(), fileWithPerson.get(fileName), file);
+        String personId = fileWithPerson.getOrDefault(fileName, null);
+        FileUtil.upload(uploadConfig.getIp(), personId, file);
         fileWithPerson.remove(fileName);
     }
 
