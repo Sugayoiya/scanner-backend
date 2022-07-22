@@ -59,8 +59,8 @@ public class TwainScrollPrint implements ScannerListener {
         if (type.equals(ScannerIOMetadata.ACQUIRED)) {
             BufferedImage image = metadata.getImage();
             // 生成文件名
-            String fileName = UUID.randomUUID().toString(true);
-            String filePath = PATH + "\\" + fileName + EXTENSION;
+            String fileName = UUID.randomUUID().toString(true) + EXTENSION;
+            String filePath = PATH + "\\" + fileName;
             try {
                 log.info("write image file: {}", filePath);
                 ImageIO.write(image, FORMAT_NAME, new File(filePath));

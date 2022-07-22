@@ -10,5 +10,5 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UploadConfig {
     private String ip;
     private String person;
-    private ConcurrentHashMap<String, String> fileWithPerson;
+    private final ConcurrentHashMap<String, String> fileWithPerson = new ConcurrentHashMap<>();
 }
