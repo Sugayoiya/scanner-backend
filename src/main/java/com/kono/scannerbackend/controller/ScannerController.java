@@ -1,6 +1,8 @@
 package com.kono.scannerbackend.controller;
 
+import com.kono.scannerbackend.config.UploadConfig;
 import com.kono.scannerbackend.domain.DeviceNamesDto;
+import com.kono.scannerbackend.domain.ScanDto;
 import com.kono.scannerbackend.domain.vo.Result;
 import com.kono.scannerbackend.util.TwainScrollPrint;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +17,8 @@ import uk.co.mmscomputing.device.scanner.ScannerIOException;
 public class ScannerController {
     @Autowired
     TwainScrollPrint twainScrollPrint;
+    @Autowired
+    UploadConfig uploadConfig;
 
     @GetMapping("/select")
     public void select() throws ScannerIOException {
@@ -27,11 +31,17 @@ public class ScannerController {
     }
 
     @CrossOrigin
-    @GetMapping("/do")
-    public void selectAndAcquire(int index) throws ScannerIOException {
+    @PostMapping("/do")
+    public void selectAndAcquire(@RequestBody ScanDto scanDto) throws ScannerIOException {
         String[] deviceNames = twainScrollPrint.getDeviceNames();
+        int index = scanDto.getIndex();
         index = index >= deviceNames.length ? 0 : index;
+
         twainScrollPrint.select(deviceNames[index]);
+        // 设置上传服务器的ip与上传personId
+        uploadConfig.setIp(scanDto.getIp());
+        uploadConfig.setPerson(scanDto.getPerson());
+
         Thread thread = new Thread(() -> {
             twainScrollPrint.waitToExit();
             try {

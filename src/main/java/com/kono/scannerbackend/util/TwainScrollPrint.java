@@ -1,16 +1,24 @@
 package com.kono.scannerbackend.util;
 
+import cn.hutool.core.lang.UUID;
+import com.kono.scannerbackend.config.UploadConfig;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.co.mmscomputing.device.scanner.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static com.kono.scannerbackend.constant.Constant.*;
 
 @Component
+@Slf4j
 public class TwainScrollPrint implements ScannerListener {
-
-    int index = 0;
+    @Autowired
+    UploadConfig uploadConfig;
 
     Scanner scanner;
 
@@ -39,41 +47,31 @@ public class TwainScrollPrint implements ScannerListener {
         return scanner.getDeviceNames();
     }
 
-    public Boolean isBusy(){
+    public Boolean isBusy() {
         return scanner.isBusy();
     }
 
-    public void waitToExit(){
+    public void waitToExit() {
         scanner.waitToExit();
     }
 
     public void update(ScannerIOMetadata.Type type, ScannerIOMetadata metadata) {
-
         if (type.equals(ScannerIOMetadata.ACQUIRED)) {
             BufferedImage image = metadata.getImage();
-            System.out.println("Have an image now!");
+            // 生成文件名
+            String fileName = UUID.randomUUID().toString(true);
+            String filePath = PATH + "\\" + fileName + EXTENSION;
             try {
-                ImageIO.write(image, "jpg", new File(".\\scanned\\" + index + ".jpg"));
-                index++;
-
-//        new uk.co.mmscomputing.concurrent.Semaphore(0,true).tryAcquire(2000,null);
-
+                log.info("write image file: {}", filePath);
+                ImageIO.write(image, FORMAT_NAME, new File(filePath));
+                // 生成文件与上传personId关联 存入config Map中
+                ConcurrentHashMap<String, String> fileWithPerson = uploadConfig.getFileWithPerson();
+                fileWithPerson.put(fileName, uploadConfig.getPerson());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (type.equals(ScannerIOMetadata.NEGOTIATE)) {
             ScannerDevice device = metadata.getDevice();
-/*
-      try{
-        device.setResolution(100);
-//        device.setRegionOfInterest(0.0,0.0,40.0,50.0);       // top-left corner 40x50 mm
-        device.setRegionOfInterest(0,0,400,500);               // top-left corner 400x500 pixels
-        device.setShowUserInterface(false);
-        device.setShowProgressBar(false);
-      }catch(Exception e){
-        e.printStackTrace();
-      }
-*/
         } else if (type.equals(ScannerIOMetadata.STATECHANGE)) {
             System.err.println(metadata.getStateStr());
         } else if (type.equals(ScannerIOMetadata.EXCEPTION)) {
