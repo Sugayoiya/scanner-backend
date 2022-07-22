@@ -8,47 +8,47 @@ import lombok.NoArgsConstructor;
 @Data
 public class FileUploadDto {
     @JsonProperty("id")
-    private String id;
+    public String id;
 
     @JsonProperty("parentId")
-    private Object parentId;
+    public Object parentId;
 
     @JsonProperty("version")
-    private Integer version;
+    public Integer version;
 
     @JsonProperty("personId")
-    private String personId;
+    public String personId;
 
     @JsonProperty("archiveName")
-    private String archiveName;
+    public String archiveName;
 
     @JsonProperty("number")
-    private String number;
+    public String number;
 
     @JsonProperty("url")
-    private String url;
+    public String url;
 
     @JsonProperty("uri")
-    private String uri;
+    public String uri;
 
     @JsonProperty("size")
-    private Integer size;
+    public Integer size;
 
     @JsonProperty("createTime")
-    private String createTime;
+    public String createTime;
 
     @JsonProperty("createBy")
-    private String createBy;
+    public String createBy;
 
     @JsonProperty("updateTime")
-    private String updateTime;
+    public String updateTime;
 
     @JsonProperty("updateBy")
-    private String updateBy;
+    public String updateBy;
 
     @JsonProperty("delFlag")
-    private Object delFlag;
+    public Object delFlag;
 
     @JsonProperty("remarks")
-    private Object remarks;
+    public Object remarks;
 }

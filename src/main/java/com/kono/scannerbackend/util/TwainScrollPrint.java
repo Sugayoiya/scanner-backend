@@ -3,6 +3,7 @@ package com.kono.scannerbackend.util;
 import cn.hutool.core.lang.UUID;
 import com.kono.scannerbackend.config.UploadConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import uk.co.mmscomputing.device.scanner.*;
@@ -66,7 +67,10 @@ public class TwainScrollPrint implements ScannerListener {
                 ImageIO.write(image, FORMAT_NAME, new File(filePath));
                 // 生成文件与上传personId关联 存入config Map中
                 ConcurrentHashMap<String, String> fileWithPerson = uploadConfig.getFileWithPerson();
-                fileWithPerson.put(fileName, uploadConfig.getPerson());
+                String person = uploadConfig.getPerson();
+                if (StringUtils.isNotEmpty(person)){
+                    fileWithPerson.put(fileName, person);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

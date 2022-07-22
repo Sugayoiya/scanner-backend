@@ -8,14 +8,17 @@
         <version>2.6.9</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.kono</groupId>
-    <artifactId>scannerBacnkend</artifactId>
+    <artifactId>scannerBackend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>scannerBacnkend</name>
-    <description>scannerBacnkend</description>
+    <name>scannerBackend</name>
+    <description>scannerBackend</description>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

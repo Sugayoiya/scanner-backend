@@ -1,6 +1,5 @@
 package com.kono.scannerbackend.domain;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
