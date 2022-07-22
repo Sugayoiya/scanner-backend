@@ -1,4 +1,4 @@
-package com.kono.scannerbackend.util;
+package com.kono.scannerbackend.watcher;
 
 import com.kono.scannerbackend.watcher.FileWatcher;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
-public class FileUtil {
+public class FileObserver {
     private static final String PATH = ".\\scanned";
     private static final String EXTENSION = ".jpg";
 
